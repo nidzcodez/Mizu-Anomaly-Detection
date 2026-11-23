@@ -106,3 +106,4 @@
 1. **Cannot Certify Drinking Water Safety:** This is an **urban wastewater treatment plant**, not a drinking water treatment facility. Effluent is discharged into environmental waterways, not potable water taps.
 2. **Cannot Detect Pathogen Contamination:** Sensors measure bulk physical/chemical properties, not microbiological organisms.
 3. **Cannot Replace Certified Laboratory Testing:** MIZU is a machine-learning research decision-support tool, not an accredited laboratory instrument.
+
