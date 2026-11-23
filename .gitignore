@@ -1,0 +1,57 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Data files (never commit raw or processed datasets)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/raw/*.zip
+data/raw/*.tar.gz
+
+# Logs & temp files
+*.log
+*.tmp
+.system_generated/
+
+# Jupyter
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Environment variables & secrets
+.env
+.env.*
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# IDE & editors
+.vscode/
+.idea/
+
+# Streamlit
+.streamlit/
