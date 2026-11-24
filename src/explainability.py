@@ -113,6 +113,91 @@ class AnomalyExplainer:
         self.raw_df = load_water_treatment_data(raw_data_path)
         self.feature_names = get_feature_columns(self.df_preprocessed)
 
+    def explain_sample(
+        self,
+        sample: pd.DataFrame,
+        raw_row: Optional[Union[pd.Series, Dict[str, float]]] = None,
+        sample_id: str = "Observation",
+        model_type: str = "iforest",
+        top_n: int = 5
+    ) -> Tuple[pd.DataFrame, Dict[str, Union[str, float]]]:
+        """
+        Explain why an observation was flagged by ablating features one by one.
+        Accepts any 1-row DataFrame containing the 38 scaled features.
+
+        Args:
+            sample: 1-row DataFrame containing scaled features.
+            raw_row: Optional unscaled raw values (Series or dict).
+            sample_id: Label or identifier for this observation.
+            model_type: 'iforest' or 'lof'.
+            top_n: Number of top influential features to return.
+
+        Returns:
+            Tuple: (top_features_df, metadata_dict)
+        """
+        model_key = model_type.lower().strip()
+        if model_key not in {"iforest", "isolation_forest", "lof", "local_outlier_factor"}:
+            raise ValueError(f"Unknown model_type '{model_type}'. Choose 'iforest' or 'lof'.")
+
+        sample_df = sample[self.feature_names].copy()
+
+        # Calculate baseline score using model-specific methods
+        if model_key in {"iforest", "isolation_forest"}:
+            model_name = "Isolation Forest"
+            base_score = float(self.iforest.compute_anomaly_scores(sample_df)[0])
+            score_func = lambda s: float(self.iforest.compute_anomaly_scores(s)[0])
+        else:
+            model_name = "Local Outlier Factor"
+            base_score = float(self.lof.compute_lof_scores(sample_df)[0])
+            score_func = lambda s: float(self.lof.compute_lof_scores(s)[0])
+
+        # Feature ablation loop
+        records = []
+        for feature in self.feature_names:
+            sample_ablated = sample_df.copy()
+            # Replace scaled feature with 0.0 (the historical median in RobustScaler space)
+            sample_ablated[feature] = 0.0
+
+            ablated_score = score_func(sample_ablated)
+            # Positive drop means the feature pushed the observation toward an anomaly
+            score_change = base_score - ablated_score
+
+            meta = SENSOR_METADATA.get(feature, {"name": feature, "stage": "Unknown", "unit": ""})
+            raw_val = np.nan
+            if raw_row is not None:
+                if isinstance(raw_row, pd.Series) and feature in raw_row.index:
+                    raw_val = raw_row[feature]
+                elif isinstance(raw_row, dict) and feature in raw_row:
+                    raw_val = raw_row[feature]
+
+            records.append({
+                "feature_code": feature,
+                "sensor_name": meta["name"],
+                "stage": meta["stage"],
+                "unit": meta["unit"],
+                "raw_value": round(float(raw_val), 2) if pd.notnull(raw_val) else np.nan,
+                "scaled_value": round(float(sample_df[feature].iloc[0]), 4),
+                "original_score": round(base_score, 4),
+                "ablated_score": round(ablated_score, 4),
+                "score_reduction": round(float(score_change), 6)
+            })
+
+        df_ablation = pd.DataFrame(records)
+        # Rank by largest positive score reduction (features that, when neutralized, reduce anomaly score most)
+        df_sorted = df_ablation.sort_values(by="score_reduction", ascending=False).reset_index(drop=True)
+        top_df = df_sorted.head(top_n).copy()
+
+        metadata = {
+            "date": str(sample_id),
+            "model_name": model_name,
+            "base_score": base_score,
+            "top_feature": top_df.iloc[0]["sensor_name"],
+            "top_feature_code": top_df.iloc[0]["feature_code"],
+            "top_score_reduction": top_df.iloc[0]["score_reduction"]
+        }
+
+        return top_df, metadata
+
     def explain_observation(
         self,
         date: str,
@@ -130,10 +215,6 @@ class AnomalyExplainer:
         Returns:
             Tuple: (top_features_df, metadata_dict)
         """
-        model_key = model_type.lower().strip()
-        if model_key not in {"iforest", "isolation_forest", "lof", "local_outlier_factor"}:
-            raise ValueError(f"Unknown model_type '{model_type}'. Choose 'iforest' or 'lof'.")
-
         matches = self.df_preprocessed[self.df_preprocessed["Date"] == date]
         if matches.empty:
             raise KeyError(f"Date '{date}' not found in preprocessed dataset.")
@@ -141,58 +222,13 @@ class AnomalyExplainer:
         idx = matches.index[0]
         sample = self.df_preprocessed.loc[idx:idx, self.feature_names].copy()
         raw_row = self.raw_df.loc[idx]
-
-        # Calculate baseline score using model-specific methods
-        if model_key in {"iforest", "isolation_forest"}:
-            model_name = "Isolation Forest"
-            base_score = float(self.iforest.compute_anomaly_scores(sample)[0])
-            score_func = lambda s: float(self.iforest.compute_anomaly_scores(s)[0])
-        else:
-            model_name = "Local Outlier Factor"
-            base_score = float(self.lof.compute_lof_scores(sample)[0])
-            score_func = lambda s: float(self.lof.compute_lof_scores(s)[0])
-
-        # Feature ablation loop
-        records = []
-        for feature in self.feature_names:
-            sample_ablated = sample.copy()
-            # Replace scaled feature with 0.0 (the historical median in RobustScaler space)
-            sample_ablated[feature] = 0.0
-
-            ablated_score = score_func(sample_ablated)
-            # Positive drop means the feature pushed the observation toward an anomaly
-            score_change = base_score - ablated_score
-
-            meta = SENSOR_METADATA.get(feature, {"name": feature, "stage": "Unknown", "unit": ""})
-            raw_val = raw_row[feature] if feature in raw_row else np.nan
-
-            records.append({
-                "feature_code": feature,
-                "sensor_name": meta["name"],
-                "stage": meta["stage"],
-                "unit": meta["unit"],
-                "raw_value": round(float(raw_val), 2) if pd.notnull(raw_val) else np.nan,
-                "scaled_value": round(float(sample[feature].iloc[0]), 4),
-                "original_score": round(base_score, 4),
-                "ablated_score": round(ablated_score, 4),
-                "score_reduction": round(float(score_change), 6)
-            })
-
-        df_ablation = pd.DataFrame(records)
-        # Rank by largest positive score reduction (features that, when neutralized, reduce anomaly score most)
-        df_sorted = df_ablation.sort_values(by="score_reduction", ascending=False).reset_index(drop=True)
-        top_df = df_sorted.head(top_n).copy()
-
-        metadata = {
-            "date": date,
-            "model_name": model_name,
-            "base_score": base_score,
-            "top_feature": top_df.iloc[0]["sensor_name"],
-            "top_feature_code": top_df.iloc[0]["feature_code"],
-            "top_score_reduction": top_df.iloc[0]["score_reduction"]
-        }
-
-        return top_df, metadata
+        return self.explain_sample(
+            sample=sample,
+            raw_row=raw_row,
+            sample_id=date,
+            model_type=model_type,
+            top_n=top_n
+        )
 
 
 def plot_anomaly_explanation(
