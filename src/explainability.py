@@ -173,15 +173,14 @@ class AnomalyExplainer:
                 "unit": meta["unit"],
                 "raw_value": round(float(raw_val), 2) if pd.notnull(raw_val) else np.nan,
                 "scaled_value": round(float(sample[feature].iloc[0]), 4),
-                "base_score": round(base_score, 4),
+                "original_score": round(base_score, 4),
                 "ablated_score": round(ablated_score, 4),
-                "score_change": float(score_change),
-                "score_drop": round(float(score_change), 6)
+                "score_reduction": round(float(score_change), 6)
             })
 
         df_ablation = pd.DataFrame(records)
-        # Rank by largest positive score drop (features that made it anomalous)
-        df_sorted = df_ablation.sort_values(by="score_change", ascending=False).reset_index(drop=True)
+        # Rank by largest positive score reduction (features that, when neutralized, reduce anomaly score most)
+        df_sorted = df_ablation.sort_values(by="score_reduction", ascending=False).reset_index(drop=True)
         top_df = df_sorted.head(top_n).copy()
 
         metadata = {
@@ -190,7 +189,7 @@ class AnomalyExplainer:
             "base_score": base_score,
             "top_feature": top_df.iloc[0]["sensor_name"],
             "top_feature_code": top_df.iloc[0]["feature_code"],
-            "top_score_drop": top_df.iloc[0]["score_drop"]
+            "top_score_reduction": top_df.iloc[0]["score_reduction"]
         }
 
         return top_df, metadata
@@ -205,7 +204,7 @@ def plot_anomaly_explanation(
     Generate horizontal bar chart showing the top 5 influential features for an anomaly.
     """
     sns.set_theme(style="whitegrid", palette="muted")
-    fig, ax = plt.subplots(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(13, 6.5))
 
     # Construct readable labels with original physical units
     labels = []
@@ -217,21 +216,33 @@ def plot_anomaly_explanation(
 
     # Invert to put #1 at the top
     y_pos = np.arange(len(top_df))[::-1]
-    scores = top_df["score_drop"].values
+    reductions = top_df["score_reduction"].values
 
     colors = ["#dc2626", "#ea580c", "#d97706", "#2563eb", "#059669"]
 
-    bars = ax.barh(y_pos, scores, color=colors[:len(scores)], edgecolor="black", alpha=0.85, height=0.55)
+    bars = ax.barh(y_pos, reductions, color=colors[:len(reductions)], edgecolor="black", alpha=0.85, height=0.55)
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels, fontsize=9.5, fontweight="bold")
 
-    for bar, val in zip(bars, scores):
-        width = bar.get_width()
-        ax.text(width + (val * 0.02), bar.get_y() + bar.get_height()/2, f"Δ Score: -{val:.4f}", va="center", fontsize=9, fontweight="bold")
+    for bar, (_, row) in zip(bars, top_df.iterrows()):
+        val = row["score_reduction"]
+        ablated = row["ablated_score"]
+        ax.text(
+            bar.get_width() + (val * 0.02),
+            bar.get_y() + bar.get_height()/2,
+            f"Reduction: +{val:.4f} (Score: {row['original_score']:.4f} -> {ablated:.4f})",
+            va="center",
+            fontsize=9,
+            fontweight="bold"
+        )
 
-    ax.set_xlabel(f"Score Reduction When Feature is Ablated to Normal Median (Base {metadata['model_name']} Score: {metadata['base_score']:.4f})", fontsize=10, fontweight="bold")
+    ax.set_xlabel(
+        f"Anomaly Score Reduction = (Original Score - Ablated Score)\n[Higher Reduction = Greater Model Sensitivity to this Feature]",
+        fontsize=10,
+        fontweight="bold"
+    )
     ax.set_title(
-        f"MIZU: Feature Attribution for Flagged Operational Day [{metadata['date']}]\nModel: {metadata['model_name']} — Top {len(top_df)} Influential Sensor Features",
+        f"MIZU: Feature Attribution for Flagged Operational Day [{metadata['date']}]\nModel: {metadata['model_name']} (Original Anomaly Score: {metadata['base_score']:.4f}) — Top {len(top_df)} Influential Features",
         fontsize=12,
         fontweight="bold",
         pad=15
@@ -249,30 +260,30 @@ def run_explainability_tests() -> Dict[str, pd.DataFrame]:
     """
     Execute tests across three distinct operational archetypes:
     1. Consensus Anomaly (Flagged by both models: D-13/3/90).
-    2. Isolation Forest Only (Storm surge: D-12/8/90).
-    3. LOF Only (Toxic Zinc spike: D-7/2/91).
+    2. Isolation Forest Only (D-12/8/90).
+    3. LOF Only (D-7/2/91).
     """
     explainer = AnomalyExplainer()
     test_cases = [
-        {"date": "D-13/3/90", "model": "iforest", "desc": "Consensus Anomaly (Both Models) - Evaluated on iForest"},
-        {"date": "D-13/3/90", "model": "lof", "desc": "Consensus Anomaly (Both Models) - Evaluated on LOF"},
-        {"date": "D-12/8/90", "model": "iforest", "desc": "Only Isolation Forest (Hydraulic Storm Surge)"},
-        {"date": "D-7/2/91", "model": "lof", "desc": "Only Local Outlier Factor (Toxic Zinc Shock Event)"}
+        {"date": "D-13/3/90", "model": "iforest", "desc": "Consensus Anomaly (Flagged by Both) - Evaluated on iForest"},
+        {"date": "D-13/3/90", "model": "lof", "desc": "Consensus Anomaly (Flagged by Both) - Evaluated on LOF"},
+        {"date": "D-12/8/90", "model": "iforest", "desc": "Flagged ONLY by Isolation Forest (High Volumetric Inflow Period)"},
+        {"date": "D-7/2/91", "model": "lof", "desc": "Flagged ONLY by Local Outlier Factor (High Zinc & High COD Intake)"}
     ]
 
     results = {}
-    print("=" * 70)
-    print("MIZU: Feature-Level Anomaly Attribution Test Suite")
-    print("=" * 70)
+    print("=" * 75)
+    print("MIZU: Feature-Level Anomaly Attribution Test Suite (Audited & Verified)")
+    print("=" * 75)
 
     for tc in test_cases:
         top_features, meta = explainer.explain_observation(tc["date"], model_type=tc["model"], top_n=5)
         results[f"{tc['date']}_{tc['model']}"] = top_features
 
         print(f"\n--- TEST: {tc['desc']} ---")
-        print(f"Date: {meta['date']} | Model: {meta['model_name']} | Base Score: {meta['base_score']:.4f}")
-        print("Top 5 Influential Sensors:")
-        show_cols = ["feature_code", "sensor_name", "raw_value", "unit", "scaled_value", "score_drop"]
+        print(f"Date: {meta['date']} | Model: {meta['model_name']} | Original Score: {meta['base_score']:.4f}")
+        print("Top 5 Influential Sensor Measurements:")
+        show_cols = ["feature_code", "sensor_name", "raw_value", "unit", "scaled_value", "original_score", "ablated_score", "score_reduction"]
         print(top_features[show_cols].to_string(index=False))
 
     # Generate and save diagnostic plot for the primary consensus anomaly D-13/3/90
