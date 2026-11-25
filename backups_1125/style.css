@@ -1,0 +1,597 @@
+/* =============================================================================
+   MIZU Industrial Water-Treatment Telemetry & Monitoring System
+   Design System & Style Definition (assets/style.css)
+   Clean SaaS / SCADA Left-Sidebar Dashboard Layout
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-2: #F1F5F9;
+    --border: #E2E8F0;
+    --border-light: #EDF2F7;
+    --text: #1E293B;
+    --body: #475569;
+    --text-muted: #64748B;
+    --text-faint: #94A3B8;
+    --accent: #1976D2;
+    --accent-dark: #1565C0;
+    --accent-light: #EBF5FF;
+    --anomaly: #EF4444;
+    --warn: #F59E0B;
+    --info: #1976D2;
+    --ok: #1976D2;
+}
+
+/* ---------- Base Layout & Typography Scale (Strict 14px root) ---------- */
+html {
+    font-size: 14px !important;
+}
+
+body, .stApp {
+    background-color: var(--bg) !important;
+    color: var(--body) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Page Header & Headings */
+h1, .page-header-title {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    margin: 0 0 4px 0 !important;
+    padding: 0 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.2 !important;
+}
+
+.header-subtitle {
+    font-size: 0.9rem !important;
+    color: var(--text-muted) !important;
+    font-weight: 400 !important;
+    margin-bottom: 12px !important;
+    line-height: 1.4 !important;
+}
+
+h2, h3, h4, h5, [data-testid="stMarkdownContainer"] h5, [data-testid="stMarkdownContainer"] h4 {
+    font-size: 1.0rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    margin: 0 0 8px 0 !important;
+    line-height: 1.3 !important;
+}
+
+/* Body Text, Paragraphs, Lists & Descriptions */
+p, li, [data-testid="stMarkdownContainer"] p, [data-testid="stMarkdownContainer"] li {
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    color: var(--body) !important;
+    line-height: 1.5 !important;
+}
+
+/* Bold spans within body text - strictly same size */
+b, strong, [data-testid="stMarkdownContainer"] strong, [data-testid="stMarkdownContainer"] b {
+    font-size: inherit !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+}
+
+/* Captions */
+[data-testid="stCaptionContainer"], .stCaption {
+    font-size: 0.8rem !important;
+    color: var(--text-muted) !important;
+}
+
+/* Section Eyebrow Labels */
+.zone-eyebrow {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: var(--text-muted) !important;
+    margin: 0 0 12px 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* Inline Code Badges (Neutral, never red) */
+code {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.8rem !important;
+    background: var(--surface-2) !important;
+    color: var(--text) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* ---------- Streamlit Chrome & Headers ---------- */
+#MainMenu, footer, [data-testid="stDeployButton"], .stDeployButton {
+    display: none !important;
+}
+
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    height: 3.5rem !important;
+    z-index: 99 !important;
+}
+
+/* ---------- Left Sidebar Architecture (~260px, White, Clean) ---------- */
+section[data-testid="stSidebar"] {
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+    background: #FFFFFF !important;
+    border-right: 1px solid var(--border) !important;
+    box-shadow: none !important;
+}
+
+section[data-testid="stSidebar"] > div:first-child {
+    background: #FFFFFF !important;
+}
+
+[data-testid="stSidebarContent"] {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    background: #FFFFFF !important;
+}
+
+/* Top of Sidebar: Brand Header */
+.sidebar-brand {
+    order: -1 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 20px 16px 16px 16px !important;
+    border-bottom: 1px solid var(--border) !important;
+    margin-bottom: 8px !important;
+    box-sizing: border-box !important;
+    background: #FFFFFF !important;
+}
+
+.sidebar-brand .mizu-logo {
+    width: 36px !important;
+    height: 36px !important;
+    flex-shrink: 0 !important;
+}
+
+.sidebar-brand .brand-text-block {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    line-height: 1.1 !important;
+    overflow: visible !important;
+}
+
+.sidebar-brand .brand-name {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 !important;
+    line-height: 1.1 !important;
+}
+
+.sidebar-brand .brand-tagline {
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    font-weight: 400 !important;
+    white-space: nowrap !important;
+    margin-top: 3px !important;
+}
+
+/* Navigation Section Headers (MONITOR, SETTINGS) */
+[data-testid="stSidebarNav"] {
+    order: 0 !important;
+    padding: 0 12px !important;
+}
+
+[data-testid="stSidebarNavItems"] {
+    padding: 0 !important;
+    gap: 2px !important;
+}
+
+[data-testid="stSidebarNavSectionHeader"],
+[data-testid="stSidebarNavSeparator"],
+[data-testid="stSidebarNav"] span:has(+ ul) {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: var(--text-muted) !important;
+    padding: 14px 12px 6px 12px !important;
+    margin: 0 !important;
+}
+
+/* Navigation Items (Identical height 36px, same padding, 0.9rem text) */
+[data-testid="stSidebarNavLink"] {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 0 12px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    margin: 1px 0 !important;
+    transition: background 120ms ease, color 120ms ease !important;
+}
+
+[data-testid="stSidebarNavLink"] span {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    color: var(--text-muted) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Hide Streamlit default icons on nav items */
+[data-testid="stSidebarNavLink"] svg,
+[data-testid="stSidebarNavLink"] [data-testid="stIconMaterial"] {
+    display: none !important;
+}
+
+/* Nav Item Hover State */
+[data-testid="stSidebarNavLink"]:hover {
+    background: rgba(25, 118, 210, 0.06) !important;
+}
+[data-testid="stSidebarNavLink"]:hover span {
+    color: var(--accent) !important;
+}
+
+/* Active Nav Item */
+[data-testid="stSidebarNavLink"][aria-current="page"] {
+    background: var(--accent-light) !important;
+}
+[data-testid="stSidebarNavLink"][aria-current="page"] span {
+    color: var(--accent) !important;
+    font-weight: 600 !important;
+}
+
+/* ---------- Main Content Area (~1200px max width centered) ---------- */
+[data-testid="stMainBlockContainer"], .stMainBlockContainer, .block-container {
+    max-width: 1200px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 24px !important;
+}
+
+/* ---------- Section Cards (Every category in its own card) ---------- */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    padding: 18px 20px !important;
+    margin-bottom: 20px !important;
+    box-shadow: none !important;
+}
+
+/* ---------- Status Banner ---------- */
+.status-banner {
+    display: flex !important;
+    align-items: flex-start !important;
+    background: #F8FAFC !important;
+    border: 1px solid var(--border) !important;
+    border-left: 3px solid var(--accent) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 0 !important;
+}
+.status-banner.ok { border-left-color: var(--accent) !important; }
+.status-banner.warn { border-left-color: var(--warn) !important; }
+.status-banner.bad { border-left-color: var(--anomaly) !important; }
+
+.status-badge {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    display: inline-block !important;
+    margin-bottom: 6px !important;
+}
+.status-badge.ok { background: var(--accent-light) !important; color: var(--accent) !important; }
+.status-badge.warn { background: #FEF3C7 !important; color: #B45309 !important; }
+.status-badge.bad { background: #FEE2E2 !important; color: #DC2626 !important; }
+
+.status-text {
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    color: var(--body) !important;
+    line-height: 1.5 !important;
+}
+
+/* ---------- KPI Grid (5 equal cards in one row at 1440px) ---------- */
+.kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.kpi-grid:has(> :nth-child(5)) {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+.kpi-grid:has(> :nth-child(4)):not(:has(> :nth-child(5))) {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.kpi-card {
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 14px 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    min-height: 96px !important;
+}
+
+.kpi-label {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: var(--text-muted) !important;
+    line-height: 1.3 !important;
+}
+
+.kpi-value {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin: 4px 0 !important;
+    color: var(--text) !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+.kpi-sub {
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    line-height: 1.3 !important;
+}
+
+/* ---------- Right Rail & Legend Cards ---------- */
+.rail-card {
+    background: #F8FAFC !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 12px !important;
+}
+.rail-card:last-child {
+    margin-bottom: 0 !important;
+}
+.rail-title {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+.key-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+.key-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    color: var(--body) !important;
+}
+.key-item span {
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    color: var(--body) !important;
+}
+.key-item b {
+    font-weight: 600 !important;
+    color: var(--text) !important;
+}
+.key-diamond-red {
+    width: 8px !important;
+    height: 8px !important;
+    background: var(--anomaly) !important;
+    transform: rotate(45deg) !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.key-circle-amber {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: var(--warn) !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.key-circle-blue, .key-circle-teal {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: var(--accent) !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.dot {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.dot.ok { background: var(--accent) !important; }
+.dot.warn { background: var(--warn) !important; }
+.dot.bad { background: var(--anomaly) !important; }
+
+.plant-strip {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+}
+.stage-tile {
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+.stage-tile-name {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+}
+.stage-tile-vals {
+    font-size: 0.8rem !important;
+    color: var(--text-muted) !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+/* ---------- Tabs & Controls ---------- */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+.stTabs [data-baseweb="tab"] {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-muted) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    padding: 8px 12px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+}
+.stTabs [aria-selected="true"] {
+    color: var(--accent) !important;
+    border-bottom: 2px solid var(--accent) !important;
+    font-weight: 600 !important;
+}
+
+/* Form Controls & Selectboxes */
+div[data-baseweb="select"] {
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+/* Buttons */
+.stButton > button, .stDownloadButton > button {
+    border-radius: 6px !important;
+    border: 1px solid var(--border) !important;
+    background: #FFFFFF !important;
+    color: var(--text) !important;
+    min-height: 36px !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    padding: 0 14px !important;
+    transition: border-color 120ms ease, background 120ms ease !important;
+}
+.stButton > button:hover, .stDownloadButton > button:hover {
+    border-color: var(--accent) !important;
+    background: var(--accent-light) !important;
+    color: var(--accent-dark) !important;
+}
+
+/* Horizontal Scroll Table */
+[data-testid="stDataFrame"] {
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    overflow-x: auto !important;
+    background: #FFFFFF !important;
+}
+
+/* Notices & Alerts */
+.notice, .abstain {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 8px 0 14px 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+.notice {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    color: var(--accent-dark);
+}
+.abstain {
+    background: #FFF7E7;
+    border-left: 3px solid var(--warn);
+    color: #785617;
+}
+
+/* ---------- Responsive Breakpoints ---------- */
+@media (max-width: 768px) {
+    [data-testid="stMainBlockContainer"], .stMainBlockContainer, .block-container {
+        padding: 16px !important;
+    }
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        padding: 14px 14px !important;
+        margin-bottom: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Step Flow in Details Tab */
+.step-flow {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+}
+.step-card {
+    background: #F8FAFC !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+}
+.step-num {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    color: var(--accent) !important;
+    margin-bottom: 4px !important;
+}
+.step-title {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    margin-bottom: 4px !important;
+}
+.step-desc {
+    font-size: 0.8rem !important;
+    color: var(--body) !important;
+    line-height: 1.4 !important;
+}
+@media (max-width: 768px) {
+    .step-flow {
+        grid-template-columns: 1fr !important;
+    }
+}

@@ -54,4 +54,7 @@ Thumbs.db
 .idea/
 
 # Streamlit
-.streamlit/
+.streamlit/secrets.toml
+.streamlit/secrets.toml
+.auth_state.db
+backups_final/

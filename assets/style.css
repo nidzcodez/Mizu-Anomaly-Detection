@@ -1,0 +1,1216 @@
+/* =============================================================================
+   MIZU Industrial Water-Treatment Telemetry & Monitoring System
+   Design System & Style Definition (assets/style.css)
+   Clean SaaS / SCADA Left-Sidebar Dashboard Layout
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-2: #F1F5F9;
+    --border: #E2E8F0;
+    --border-light: #EDF2F7;
+    --text: #1E293B;
+    --body: #475569;
+    --text-muted: #64748B;
+    --text-faint: #94A3B8;
+    --accent: #1976D2;
+    --accent-dark: #1565C0;
+    --accent-light: #EBF5FF;
+    --anomaly: #EF4444;
+    --warn: #F59E0B;
+    --info: #1976D2;
+    --ok: #1976D2;
+}
+
+/* ---------- Base Layout & Typography Scale (Strict 14px root) ---------- */
+html {
+    font-size: 14px !important;
+}
+
+body, .stApp {
+    background-color: var(--bg) !important;
+    color: var(--body) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Page Header & Headings */
+h1, .page-header-title {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    margin: 0 0 4px 0 !important;
+    padding: 0 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.2 !important;
+}
+
+.header-subtitle {
+    font-size: 0.9rem !important;
+    color: var(--text-muted) !important;
+    font-weight: 400 !important;
+    margin-bottom: 12px !important;
+    line-height: 1.4 !important;
+}
+
+h2, h3, h4, h5, [data-testid="stMarkdownContainer"] h5, [data-testid="stMarkdownContainer"] h4 {
+    font-size: 1.0rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    margin: 0 0 8px 0 !important;
+    line-height: 1.3 !important;
+}
+
+/* Body Text, Paragraphs, Lists & Descriptions */
+p, li, [data-testid="stMarkdownContainer"] p, [data-testid="stMarkdownContainer"] li {
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    color: var(--body) !important;
+    line-height: 1.5 !important;
+}
+
+/* Bold spans within body text - strictly same size */
+b, strong, [data-testid="stMarkdownContainer"] strong, [data-testid="stMarkdownContainer"] b {
+    font-size: inherit !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+}
+
+/* Captions */
+[data-testid="stCaptionContainer"], .stCaption {
+    font-size: 0.8rem !important;
+    color: var(--text-muted) !important;
+}
+
+/* Section Eyebrow Labels */
+.zone-eyebrow {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: var(--text-muted) !important;
+    margin: 0 0 12px 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* Inline Code Badges (Neutral, never red) */
+code {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.8rem !important;
+    background: var(--surface-2) !important;
+    color: var(--text) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* ---------- Streamlit Chrome & Headers ---------- */
+#MainMenu, footer, [data-testid="stDeployButton"], .stDeployButton {
+    display: none !important;
+}
+
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    height: 3.5rem !important;
+    z-index: 99 !important;
+}
+
+/* ---------- Left Sidebar Architecture (~260px, White, Clean) ---------- */
+section[data-testid="stSidebar"] {
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+    background: #FFFFFF !important;
+    border-right: 1px solid var(--border) !important;
+    box-shadow: none !important;
+}
+
+section[data-testid="stSidebar"] > div:first-child {
+    background: #FFFFFF !important;
+}
+
+[data-testid="stSidebarContent"] {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    background: #FFFFFF !important;
+}
+
+/* Top of Sidebar: Brand Header */
+.sidebar-brand {
+    order: -1 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 20px 16px 16px 16px !important;
+    border-bottom: 1px solid var(--border) !important;
+    margin-bottom: 8px !important;
+    box-sizing: border-box !important;
+    background: #FFFFFF !important;
+}
+
+.sidebar-brand .mizu-logo {
+    width: 36px !important;
+    height: 36px !important;
+    flex-shrink: 0 !important;
+}
+
+.sidebar-brand .brand-text-block {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    line-height: 1.1 !important;
+    overflow: visible !important;
+}
+
+.sidebar-brand .brand-name {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 !important;
+    line-height: 1.1 !important;
+}
+
+.sidebar-brand .brand-tagline {
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    font-weight: 400 !important;
+    white-space: nowrap !important;
+    margin-top: 3px !important;
+}
+
+/* Navigation Section Headers (MONITOR, SETTINGS) */
+[data-testid="stSidebarNav"] {
+    order: 0 !important;
+    padding: 0 12px !important;
+}
+
+[data-testid="stSidebarNavItems"] {
+    padding: 0 !important;
+    gap: 2px !important;
+}
+
+[data-testid="stSidebarNavSectionHeader"],
+[data-testid="stSidebarNavSeparator"],
+[data-testid="stSidebarNav"] span:has(+ ul) {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: var(--text-muted) !important;
+    padding: 14px 12px 6px 12px !important;
+    margin: 0 !important;
+}
+
+/* Navigation Items (Identical height 36px, same padding, 0.9rem text) */
+[data-testid="stSidebarNavLink"] {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 0 12px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    margin: 1px 0 !important;
+    transition: background 120ms ease, color 120ms ease !important;
+}
+
+[data-testid="stSidebarNavLink"] span {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    color: var(--text-muted) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Hide Streamlit default icons on nav items */
+[data-testid="stSidebarNavLink"] svg,
+[data-testid="stSidebarNavLink"] [data-testid="stIconMaterial"] {
+    display: none !important;
+}
+
+/* Nav Item Hover State */
+[data-testid="stSidebarNavLink"]:hover {
+    background: rgba(25, 118, 210, 0.06) !important;
+}
+[data-testid="stSidebarNavLink"]:hover span {
+    color: var(--accent) !important;
+}
+
+/* Active Nav Item */
+[data-testid="stSidebarNavLink"][aria-current="page"] {
+    background: var(--accent-light) !important;
+}
+[data-testid="stSidebarNavLink"][aria-current="page"] span {
+    color: var(--accent) !important;
+    font-weight: 600 !important;
+}
+
+/* ---------- Main Content Area (~1200px max width centered) ---------- */
+[data-testid="stMainBlockContainer"], .stMainBlockContainer, .block-container {
+    max-width: 1200px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 24px !important;
+}
+
+/* ---------- Section Cards (Every category in its own card) ---------- */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    padding: 18px 20px !important;
+    margin-bottom: 20px !important;
+    box-shadow: none !important;
+}
+
+/* ---------- Status Banner ---------- */
+.status-banner {
+    display: flex !important;
+    align-items: flex-start !important;
+    background: #F8FAFC !important;
+    border: 1px solid var(--border) !important;
+    border-left: 3px solid var(--accent) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 0 !important;
+}
+.status-banner.ok { border-left-color: var(--accent) !important; }
+.status-banner.warn { border-left-color: var(--warn) !important; }
+.status-banner.bad { border-left-color: var(--anomaly) !important; }
+
+.status-badge {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    display: inline-block !important;
+    margin-bottom: 6px !important;
+}
+.status-badge.ok { background: var(--accent-light) !important; color: var(--accent) !important; }
+.status-badge.warn { background: #FEF3C7 !important; color: #B45309 !important; }
+.status-badge.bad { background: #FEE2E2 !important; color: #DC2626 !important; }
+
+.status-text {
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    color: var(--body) !important;
+    line-height: 1.5 !important;
+}
+
+/* ---------- KPI Grid (5 equal cards in one row at 1440px) ---------- */
+.kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.kpi-grid:has(> :nth-child(5)) {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+.kpi-grid:has(> :nth-child(4)):not(:has(> :nth-child(5))) {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.kpi-card {
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 14px 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    min-height: 96px !important;
+}
+
+.kpi-label {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: var(--text-muted) !important;
+    line-height: 1.3 !important;
+}
+
+.kpi-value {
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin: 4px 0 !important;
+    color: var(--text) !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+.kpi-sub {
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    line-height: 1.3 !important;
+}
+
+/* ---------- Right Rail & Legend Cards ---------- */
+.rail-card {
+    background: #F8FAFC !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 12px !important;
+}
+.rail-card:last-child {
+    margin-bottom: 0 !important;
+}
+.rail-title {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+.key-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+.key-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    color: var(--body) !important;
+}
+.key-item span {
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    color: var(--body) !important;
+}
+.key-item b {
+    font-weight: 600 !important;
+    color: var(--text) !important;
+}
+.key-diamond-red {
+    width: 8px !important;
+    height: 8px !important;
+    background: var(--anomaly) !important;
+    transform: rotate(45deg) !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.key-circle-amber {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: var(--warn) !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.key-circle-blue, .key-circle-teal {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: var(--accent) !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.dot {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+    margin-top: 5px !important;
+}
+.dot.ok { background: var(--accent) !important; }
+.dot.warn { background: var(--warn) !important; }
+.dot.bad { background: var(--anomaly) !important; }
+
+.plant-strip {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+}
+.stage-tile {
+    background: #FFFFFF !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+.stage-tile-name {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+}
+.stage-tile-vals {
+    font-size: 0.8rem !important;
+    color: var(--text-muted) !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+/* ---------- Tabs & Controls ---------- */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+.stTabs [data-baseweb="tab"] {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-muted) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    padding: 8px 12px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+}
+.stTabs [aria-selected="true"] {
+    color: var(--accent) !important;
+    border-bottom: 2px solid var(--accent) !important;
+    font-weight: 600 !important;
+}
+
+/* Form Controls & Selectboxes */
+div[data-baseweb="select"] {
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+/* Buttons */
+.stButton > button, .stDownloadButton > button {
+    border-radius: 6px !important;
+    border: 1px solid var(--border) !important;
+    background: #FFFFFF !important;
+    color: var(--text) !important;
+    min-height: 36px !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    padding: 0 14px !important;
+    transition: border-color 120ms ease, background 120ms ease !important;
+}
+.stButton > button:hover, .stDownloadButton > button:hover {
+    border-color: var(--accent) !important;
+    background: var(--accent-light) !important;
+    color: var(--accent-dark) !important;
+}
+
+/* Horizontal Scroll Table */
+[data-testid="stDataFrame"] {
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    overflow-x: auto !important;
+    background: #FFFFFF !important;
+}
+
+/* Notices & Alerts */
+.notice, .abstain {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 8px 0 14px 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+.notice {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    color: var(--accent-dark);
+}
+.abstain {
+    background: #FFF7E7;
+    border-left: 3px solid var(--warn);
+    color: #785617;
+}
+
+/* ---------- Responsive Breakpoints ---------- */
+@media (max-width: 768px) {
+    [data-testid="stMainBlockContainer"], .stMainBlockContainer, .block-container {
+        padding: 16px !important;
+    }
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        padding: 14px 14px !important;
+        margin-bottom: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Step Flow in Details Tab */
+.step-flow {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+}
+.step-card {
+    background: #F8FAFC !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+}
+.step-num {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    color: var(--accent) !important;
+    margin-bottom: 4px !important;
+}
+.step-title {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    margin-bottom: 4px !important;
+}
+.step-desc {
+    font-size: 0.8rem !important;
+    color: var(--body) !important;
+    line-height: 1.4 !important;
+}
+@media (max-width: 768px) {
+    .step-flow {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ===== Final top bar (brand left, same-size nav right) ===== */
+section[data-testid="stSidebar"],
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="stSidebarCollapseButton"],
+header[data-testid="stHeader"] {
+    display: none !important;
+}
+section[data-testid="stMain"] div[data-testid="stMainBlockContainer"] {
+    max-width: 1200px !important;
+    padding: 0 32px 24px 32px !important;
+    margin: 0 auto !important;
+}
+
+.st-key-mizu-topbar {
+    display: block !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 12px 0 !important;
+    margin-bottom: 24px !important;
+}
+.st-key-mizu-topbar [data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+.st-key-mizu-topbar [data-testid="stColumn"],
+.st-key-mizu-topbar [data-testid="column"] {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+}
+.st-key-mizu-topbar [data-testid="stColumn"]:first-child,
+.st-key-mizu-topbar [data-testid="column"]:first-child {
+    flex: 1 1 auto !important;
+}
+
+.st-key-mizu-topbar .topbar-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+.st-key-mizu-topbar .topbar-brand .mizu-logo {
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 auto !important;
+}
+.st-key-mizu-topbar .brand-text-block {
+    display: flex !important;
+    flex-direction: column !important;
+    line-height: 1.1 !important;
+}
+.st-key-mizu-topbar .brand-name {
+    font-size: 1.9rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--text) !important;
+}
+.st-key-mizu-topbar .brand-tagline {
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    white-space: nowrap !important;
+    margin-top: 2px !important;
+}
+
+/* Every nav item is the same component, same box */
+.st-key-mizu-topbar [data-testid="stPageLink-NavLink"] {
+    height: 40px !important;
+    padding: 0 14px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+}
+.st-key-mizu-topbar [data-testid="stPageLink-NavLink"] p {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    color: var(--body) !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+.st-key-mizu-topbar [data-testid="stPageLink-NavLink"]:hover {
+    background: var(--surface-2) !important;
+}
+.st-key-mizu-topbar [data-testid="stPageLink-NavLink"][aria-current="page"] {
+    background: var(--accent-light) !important;
+}
+.st-key-mizu-topbar [data-testid="stPageLink-NavLink"][aria-current="page"] p {
+    color: var(--accent) !important;
+    font-weight: 600 !important;
+}
+
+@media (max-width: 900px) {
+    .st-key-mizu-topbar [data-testid="stHorizontalBlock"] {
+        flex-wrap: wrap !important;
+    }
+}
+
+/* ===== Final: text size and header lines ===== */
+html {
+    font-size: 16px !important;
+}
+
+header,
+[data-testid="stHeader"],
+[data-testid="stDecoration"],
+[data-testid="stToolbar"],
+[data-testid="stStatusWidget"],
+.stApp > header {
+    display: none !important;
+    height: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"] {
+    border: none !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+.st-key-mizu-topbar,
+.st-key-mizu-topbar [data-testid="stHorizontalBlock"] {
+    box-shadow: none !important;
+}
+
+/* ===== Wide layout, +1 font step, transitions ===== */
+html { font-size: 17px !important; }
+
+[data-testid="stMain"] .block-container,
+.block-container {
+    max-width: 100% !important;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+}
+
+/* Taller top bar, bigger MIZU name */
+.st-key-mizu-topbar { padding-top: .6rem !important; padding-bottom: .6rem !important; min-height: 84px; }
+.st-key-mizu-topbar h1, .st-key-mizu-topbar h2, .st-key-mizu-topbar h3 {
+    font-size: 2.2rem !important; font-weight: 800 !important; line-height: 1.1 !important; margin: 0 !important;
+}
+
+/* 1. Soft fade/slide on page load and tab switch */
+@keyframes mizuFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+[data-testid="stMain"] .block-container { animation: mizuFade .45s ease both; }
+
+/* 2. Hover lift on inner cards (key numbers etc.) */
+[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlockBorderWrapper"] {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlockBorderWrapper"]:hover {
+    transform: translateY(-3px); box-shadow: 0 8px 20px rgba(30, 60, 120, .12);
+}
+
+/* 3. Sliding underline on nav items */
+.st-key-mizu-topbar a, .st-key-mizu-topbar button { position: relative; }
+.st-key-mizu-topbar a::after, .st-key-mizu-topbar button::after {
+    content: ""; position: absolute; left: 10%; bottom: 2px; width: 0; height: 2px;
+    background: #2f6fdd; transition: width .25s ease;
+}
+.st-key-mizu-topbar a:hover::after, .st-key-mizu-topbar button:hover::after { width: 80%; }
+
+/* ===== Box fit, bigger labels, upload layout, mobile, motion ===== */
+
+/* Boxes grow to fit their content instead of clipping or overlapping */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    overflow: visible !important;
+    height: auto !important;
+    padding-bottom: 1.25rem !important;
+}
+[data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlockBorderWrapper"] {
+    padding-bottom: 1rem !important;
+}
+[data-testid="stHorizontalBlock"] { align-items: stretch !important; gap: 1rem !important; }
+[data-testid="stColumn"], [data-testid="stElementContainer"], [data-testid="stMarkdownContainer"] {
+    overflow: visible !important; height: auto !important;
+}
+
+/* Labels and numbers one to two steps bigger (class names are best guesses, see Step 2) */
+[class*="eyebrow"] { font-size: 1.05rem !important; letter-spacing: .12em !important; }
+[class*="kpi"] [class*="label"] { font-size: 1.05rem !important; }
+[class*="kpi"] [class*="value"] { font-size: 2.6rem !important; line-height: 1.15 !important; }
+[class*="kpi"] [class*="caption"] { font-size: 1.05rem !important; }
+[class*="kpi"], [class*="status"] { padding-bottom: 1.1rem !important; height: auto !important; min-height: 0 !important; }
+
+/* Upload: button on top, size and formats below it */
+[data-testid="stFileUploaderDropzone"] {
+    flex-direction: column !important; align-items: flex-start !important; gap: .75rem !important;
+}
+[data-testid="stFileUploaderDropzoneInstructions"] { margin-left: 0 !important; }
+
+/* More motion */
+html { scroll-behavior: smooth; }
+@keyframes mizuRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"] { animation: mizuRise .55s ease both; }
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(2) { animation-delay: .07s; }
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(3) { animation-delay: .14s; }
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(4) { animation-delay: .21s; }
+[data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(5) { animation-delay: .28s; }
+.stPlotlyChart { animation: mizuRise .7s ease .15s both; }
+[data-baseweb="tab-panel"] { animation: mizuRise .35s ease both; }
+[data-baseweb="tab-highlight"] { transition: all .3s ease !important; }
+[data-baseweb="tab"] { transition: color .2s ease, transform .2s ease; }
+[data-baseweb="tab"]:hover { transform: translateY(-1px); }
+.stButton > button, .stDownloadButton > button { transition: transform .15s ease, box-shadow .15s ease; }
+.stButton > button:hover, .stDownloadButton > button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(30,60,120,.15); }
+[data-baseweb="slider"] [role="slider"] { transition: transform .15s ease, box-shadow .15s ease; }
+[data-baseweb="slider"] [role="slider"]:hover { transform: scale(1.2); }
+[data-testid="stDataFrame"] { transition: box-shadow .25s ease; }
+[data-testid="stDataFrame"]:hover { box-shadow: 0 8px 22px rgba(30,60,120,.1); }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* Mobile */
+@media (max-width: 768px) {
+    html { font-size: 16px !important; }
+    .block-container { padding-left: 1rem !important; padding-right: 1rem !important; }
+    [data-testid="stHorizontalBlock"] { flex-wrap: wrap !important; }
+    [data-testid="stColumn"] { flex: 1 1 calc(50% - 1rem) !important; min-width: calc(50% - 1rem) !important; }
+    [class*="kpi"] [class*="value"] { font-size: 2.1rem !important; }
+}
+@media (max-width: 480px) {
+    [data-testid="stColumn"] { flex: 1 1 100% !important; min-width: 100% !important; }
+}
+/* Top bar stays one scrollable row on phones */
+@media (max-width: 768px) {
+    .st-key-mizu-topbar [data-testid="stHorizontalBlock"] { flex-wrap: nowrap !important; overflow-x: auto !important; }
+    .st-key-mizu-topbar [data-testid="stColumn"] { flex: 0 0 auto !important; min-width: auto !important; }
+}
+
+/* ===== Exact class fixes ===== */
+.kpi-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: stretch; padding-bottom: .5rem; }
+.kpi-card { height: auto !important; min-height: 0 !important; box-sizing: border-box; overflow: visible !important; padding: 1.25rem 1.4rem !important; transition: transform .2s ease, box-shadow .2s ease; }
+.kpi-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(30,60,120,.12); }
+.status-banner { height: auto !important; padding-top: 1.2rem !important; padding-bottom: 1.2rem !important; overflow: visible !important; }
+
+.zone-eyebrow { font-size: 1.05rem !important; letter-spacing: .12em !important; margin-bottom: .6rem !important; }
+.kpi-label { font-size: 1.05rem !important; }
+.kpi-value { font-size: 2.6rem !important; line-height: 1.15 !important; }
+.kpi-sub { font-size: 1.05rem !important; }
+.status-badge { font-size: 1.05rem !important; }
+.status-text { font-size: 1.15rem !important; line-height: 1.5 !important; }
+
+/* Pulse on the status badge */
+@keyframes mizuPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(47,111,221,.35); } 50% { box-shadow: 0 0 0 10px rgba(47,111,221,0); } }
+.status-badge { animation: mizuPulse 2.4s ease-in-out infinite; border-radius: 6px; }
+
+/* Count-up for numbers (animates 0 to the value) */
+@property --n { syntax: "<integer>"; initial-value: 0; inherits: false; }
+@keyframes mizuCount { from { --n: 0; } }
+.kpi-value.count { animation: mizuCount 1.4s ease-out; counter-reset: n var(--n); }
+.kpi-value.count::before { content: counter(n); }
+
+@media (max-width: 768px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .kpi-value { font-size: 2.1rem !important; }
+}
+@media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+/* ===== Size hierarchy: page title > section label > card text ===== */
+
+/* Page title is the largest text on the page */
+.stApp h1, [class*="page-title"], [class*="page-header"] h1, [class*="page-header"] h2 {
+    font-size: 2.4rem !important; line-height: 1.15 !important; font-weight: 800 !important;
+}
+
+/* Section labels (STATUS, KEY NUMBERS, ANALYSIS) smaller than the title */
+.zone-eyebrow { font-size: .85rem !important; letter-spacing: .1em !important; margin-bottom: .75rem !important; }
+
+/* Status box: badge and text sit inside the banner with room at the bottom */
+.status-banner {
+    padding: 1rem 1.25rem 1.1rem !important;
+    margin: 0 0 .25rem 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+.status-banner > div { display: block !important; }
+.status-badge {
+    display: inline-block !important;
+    font-size: .85rem !important;
+    line-height: 1.2 !important;
+    padding: .35rem .75rem !important;
+    margin: 0 0 .6rem 0 !important;
+}
+.status-text { font-size: 1rem !important; line-height: 1.55 !important; margin: 0 !important; }
+
+/* The border container around Status needs bottom room so nothing touches its edge */
+[data-testid="stVerticalBlockBorderWrapper"] { padding-bottom: 1.5rem !important; }
+
+/* Key number cards: equal size, smaller */
+.kpi-grid { gap: .9rem !important; grid-auto-rows: 1fr !important; }
+.kpi-card {
+    display: flex !important; flex-direction: column !important; justify-content: space-between !important;
+    gap: .35rem !important; min-height: 130px !important; padding: 1rem 1.15rem !important;
+}
+.kpi-label { font-size: .8rem !important; letter-spacing: .08em !important; }
+.kpi-value { font-size: 1.9rem !important; line-height: 1.1 !important; }
+.kpi-sub   { font-size: .9rem !important; }
+
+@media (max-width: 768px) {
+    .stApp h1, [class*="page-title"], [class*="page-header"] h1, [class*="page-header"] h2 { font-size: 1.9rem !important; }
+    .kpi-card { min-height: 110px !important; }
+    .kpi-value { font-size: 1.6rem !important; }
+}
+
+/* ===== Final size order: title > section heading > content under it ===== */
+
+/* Section headings (STATUS, KEY NUMBERS, ANALYSIS) */
+.stApp .zone-eyebrow {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    letter-spacing: .08em !important;
+    margin-bottom: .9rem !important;
+}
+
+/* Status box content, smaller than its heading */
+.stApp .status-banner .status-badge { font-size: .8rem !important; padding: .3rem .7rem !important; }
+.stApp .status-banner .status-text  { font-size: .95rem !important; line-height: 1.55 !important; }
+
+/* Key number cards, all smaller than the KEY NUMBERS heading */
+.stApp .kpi-grid .kpi-card {
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+    gap: .3rem !important;
+    padding: .9rem 1.1rem !important;
+}
+.stApp .kpi-grid .kpi-card .kpi-label { font-size: .75rem !important; letter-spacing: .07em !important; }
+.stApp .kpi-grid .kpi-card .kpi-value { font-size: 1.2rem !important; line-height: 1.2 !important; }
+.stApp .kpi-grid .kpi-card .kpi-sub   { font-size: .8rem !important; }
+
+@media (max-width: 768px) {
+    .stApp .zone-eyebrow { font-size: 1.1rem !important; }
+}
+
+/* ===== Natural hierarchy: title > numbers > section labels > captions ===== */
+
+/* Overview title */
+.stApp h1, .stApp [class*="page-title"], .stApp [class*="page-header"] h1, .stApp [class*="page-header"] h2 {
+    font-size: 2.6rem !important;
+}
+
+/* Section headings become small labels */
+.stApp .zone-eyebrow {
+    font-size: .85rem !important;
+    font-weight: 700 !important;
+    letter-spacing: .12em !important;
+    margin-bottom: .8rem !important;
+}
+
+/* Remove the glow on the status badge */
+.stApp .status-badge, .stApp .status-banner .status-badge {
+    animation: none !important;
+    box-shadow: none !important;
+}
+
+/* Key number cards: numbers clearly readable */
+.stApp .kpi-grid .kpi-card {
+    justify-content: flex-start !important;
+    gap: .45rem !important;
+    padding: 1.1rem 1.25rem !important;
+}
+.stApp .kpi-grid .kpi-card .kpi-label { font-size: .8rem !important; letter-spacing: .08em !important; }
+.stApp .kpi-grid .kpi-card .kpi-value { font-size: 2rem !important; line-height: 1.15 !important; font-weight: 700 !important; }
+.stApp .kpi-grid .kpi-card .kpi-sub   { font-size: .9rem !important; }
+
+/* Status box text */
+.stApp .status-banner .status-badge { font-size: .8rem !important; }
+.stApp .status-banner .status-text  { font-size: 1rem !important; line-height: 1.55 !important; }
+
+@media (max-width: 768px) {
+    .stApp h1, .stApp [class*="page-title"], .stApp [class*="page-header"] h1, .stApp [class*="page-header"] h2 { font-size: 2rem !important; }
+    .stApp .kpi-grid .kpi-card .kpi-value { font-size: 1.7rem !important; }
+}
+
+/* ===== One type scale for the whole app ===== */
+:root {
+    --fs-title: 2.6rem;      /* page title (Overview, Documentation...) */
+    --fs-section: 1.3rem;    /* section heading (STATUS, KEY NUMBERS...) */
+    --fs-sub: 1.15rem;       /* sub-headings inside a section */
+    --fs-body: 1.05rem;      /* paragraphs, lists, status text */
+    --fs-small: .9rem;       /* captions, hints */
+    --fs-card-label: .8rem;  /* card label */
+    --fs-card-value: 1.4rem; /* card number */
+}
+.stApp h1, .stApp [class*="page-header"] h1, .stApp [class*="page-header"] h2 { font-size: var(--fs-title) !important; }
+.stApp .zone-eyebrow { font-size: var(--fs-section) !important; font-weight: 700 !important; letter-spacing: .08em !important; margin-bottom: .6rem !important; }
+.stApp [data-testid="stMarkdownContainer"] h3,
+.stApp [data-testid="stMarkdownContainer"] h4,
+.stApp [data-testid="stMarkdownContainer"] h5 { font-size: var(--fs-sub) !important; font-weight: 700 !important; }
+.stApp [data-testid="stMarkdownContainer"] p,
+.stApp [data-testid="stMarkdownContainer"] li { font-size: var(--fs-body) !important; line-height: 1.6 !important; }
+.stApp [data-testid="stCaptionContainer"], .stApp [data-testid="stCaptionContainer"] p { font-size: var(--fs-small) !important; }
+.stApp [data-testid="stExpander"] summary { font-size: var(--fs-sub) !important; }
+.stApp .status-banner .status-text { font-size: var(--fs-body) !important; }
+.stApp .status-banner .status-badge { font-size: var(--fs-card-label) !important; }
+
+/* Cards on every page: compact, equal, light blue border */
+.stApp .kpi-card, .stApp .step-card {
+    min-height: 0 !important;
+    height: auto !important;
+    justify-content: flex-start !important;
+    gap: .2rem !important;
+    padding: .75rem 1rem !important;
+    border: 1px solid rgba(47, 111, 221, .30) !important;
+    border-radius: 10px !important;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.stApp .kpi-card:hover, .stApp .step-card:hover { border-color: rgba(47, 111, 221, .65) !important; }
+.stApp .kpi-card .kpi-label { font-size: var(--fs-card-label) !important; letter-spacing: .07em !important; margin: 0 !important; }
+.stApp .kpi-card .kpi-value { font-size: var(--fs-card-value) !important; line-height: 1.15 !important; font-weight: 700 !important; margin: 0 !important; }
+.stApp .kpi-card .kpi-sub   { font-size: var(--fs-small) !important; margin: 0 !important; }
+.stApp .kpi-grid { gap: .7rem !important; padding-bottom: 0 !important; }
+
+/* Less empty space inside the section boxes */
+[data-testid="stVerticalBlockBorderWrapper"] { padding-bottom: .9rem !important; }
+.stApp .status-banner { padding: .8rem 1.1rem !important; }
+
+/* Upload: button on top, size and formats directly under it, left-aligned */
+[data-testid="stFileUploaderDropzone"] {
+    display: flex !important; flex-direction: column !important;
+    align-items: flex-start !important; justify-content: flex-start !important;
+    gap: .5rem !important; padding: 1rem 1.25rem !important; text-align: left !important;
+}
+[data-testid="stFileUploaderDropzone"] button { order: 1 !important; margin: 0 !important; }
+[data-testid="stFileUploaderDropzoneInstructions"] {
+    order: 2 !important; margin: 0 !important; padding: 0 !important;
+    align-items: flex-start !important; text-align: left !important;
+}
+[data-testid="stFileUploaderDropzoneInstructions"] > div { align-items: flex-start !important; text-align: left !important; margin: 0 !important; }
+
+@media (max-width: 768px) {
+    :root { --fs-title: 2rem; --fs-section: 1.15rem; --fs-card-value: 1.3rem; }
+}
+
+/* ===== Reset card spacing, stop lines overlapping, upload, brand ===== */
+
+/* Key number cards: size follows the content */
+.stApp .kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: start !important;
+    gap: .7rem !important;
+    margin: 0 !important;
+    padding: 0 0 .25rem 0 !important;
+}
+.stApp .kpi-grid .kpi-card {
+    display: block !important;
+    height: auto !important; min-height: 0 !important; max-height: none !important;
+    aspect-ratio: auto !important;
+    margin: 0 !important;
+    padding: .7rem .95rem !important;
+    box-sizing: border-box !important;
+}
+.stApp .kpi-grid .kpi-card > div {
+    margin: 0 !important; padding: 0 !important; height: auto !important; min-height: 0 !important;
+}
+.stApp .kpi-grid .kpi-card .kpi-label { margin-bottom: .2rem !important; }
+.stApp .kpi-grid .kpi-card .kpi-value { margin-bottom: .1rem !important; line-height: 1.2 !important; }
+
+/* Any other card-like block (Flagged Readings, Patterns) also fits its content */
+.stApp [class*="card"]:not([class*="emotion"]) {
+    height: auto !important; min-height: 0 !important;
+}
+
+/* Space at the bottom of every box so lines never touch or overlap */
+.stApp [data-testid="stMarkdownContainer"]:has(.kpi-grid),
+.stApp [data-testid="stMarkdownContainer"]:has(.status-banner) {
+    padding-bottom: 1rem !important;
+    overflow: visible !important;
+}
+.stApp .status-banner { margin-bottom: 0 !important; padding: .8rem 1.1rem 1rem !important; }
+.stApp [data-testid="stVerticalBlockBorderWrapper"]::after {
+    content: ""; display: block; height: .5rem;
+}
+
+/* Upload: button, then size and formats directly under it, left-aligned */
+.stApp [data-testid="stFileUploaderDropzone"] {
+    display: flex !important; flex-direction: column !important;
+    align-items: flex-start !important; justify-content: flex-start !important;
+    gap: .5rem !important; text-align: left !important;
+}
+.stApp [data-testid="stFileUploaderDropzone"] * { text-align: left !important; }
+.stApp [data-testid="stFileUploaderDropzone"] button { order: 1 !important; align-self: flex-start !important; margin: 0 !important; }
+.stApp [data-testid="stFileUploaderDropzoneInstructions"] {
+    order: 2 !important; width: 100% !important; margin: 0 !important; padding: 0 !important;
+    display: flex !important; flex-direction: column !important; align-items: flex-start !important; justify-content: flex-start !important;
+}
+.stApp [data-testid="stFileUploaderDropzoneInstructions"] > div {
+    display: flex !important; flex-direction: column !important; align-items: flex-start !important; margin: 0 !important;
+}
+
+/* MIZU name: bigger, blue, interactive */
+.stApp .brand-name {
+    display: inline-block !important;
+    font-size: 2.6rem !important; font-weight: 800 !important; line-height: 1.05 !important;
+    background: linear-gradient(90deg, #1b4fc4, #3b82f6) !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    -webkit-text-fill-color: transparent !important; color: transparent !important;
+    transition: transform .25s ease, letter-spacing .25s ease;
+    cursor: pointer;
+}
+.stApp .brand-name:hover { transform: scale(1.04); letter-spacing: .04em; }
+.stApp .mizu-logo { width: 56px !important; height: 56px !important; transition: transform .35s ease; }
+.stApp .mizu-logo:hover { transform: rotate(-8deg) scale(1.08); }
+
+/* ===== One blue theme, taken from the MIZU logo ===== */
+:root {
+    --mizu-blue-light: #5a9de9;
+    --mizu-blue: #3f7bd0;
+    --mizu-blue-dark: #356dc1;
+    --mizu-tint: rgba(63, 123, 208, .07);
+    --mizu-line: rgba(63, 123, 208, .28);
+    --mizu-line-strong: rgba(63, 123, 208, .60);
+}
+
+/* MIZU name: same blue as the logo */
+.stApp .brand-name {
+    background: linear-gradient(135deg, var(--mizu-blue-light), var(--mizu-blue-dark)) !important;
+    -webkit-background-clip: text !important; background-clip: text !important;
+    -webkit-text-fill-color: transparent !important; color: transparent !important;
+}
+
+/* Cards: thin blue border, blue top accent, faint blue tint */
+.stApp .kpi-card, .stApp .rail-card, .stApp .step-card, .stApp .stage-tile {
+    border: 1px solid var(--mizu-line) !important;
+    border-top: 3px solid var(--mizu-blue) !important;
+    background: linear-gradient(180deg, var(--mizu-tint), #ffffff 70%) !important;
+    border-radius: 10px !important;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease !important;
+}
+.stApp .kpi-card:hover, .stApp .rail-card:hover, .stApp .step-card:hover, .stApp .stage-tile:hover {
+    border-color: var(--mizu-line-strong) !important;
+    border-top-color: var(--mizu-blue-dark) !important;
+    box-shadow: 0 6px 16px rgba(53, 109, 193, .14) !important;
+}
+
+/* Card text keeps the type scale; labels pick up the blue */
+.stApp .kpi-label, .stApp .rail-title, .stApp .step-num { color: var(--mizu-blue-dark) !important; }
+
+/* Status banner and badge */
+.stApp .status-banner.ok { border-left-color: var(--mizu-blue) !important; }
+.stApp .status-badge.ok {
+    color: var(--mizu-blue-dark) !important;
+    background: var(--mizu-tint) !important;
+    border: 1px solid var(--mizu-line) !important;
+}
+
+/* Section headings: small blue accent bar */
+.stApp .zone-eyebrow { border-left: 3px solid var(--mizu-blue); padding-left: .6rem; }
+
+/* Nav underline and tabs use the same blue */
+.stApp .st-key-mizu-topbar a::after, .stApp .st-key-mizu-topbar button::after { background: var(--mizu-blue) !important; }
+.stApp [data-baseweb="tab-highlight"] { background-color: var(--mizu-blue) !important; }
+.stApp [data-baseweb="tab"][aria-selected="true"] { color: var(--mizu-blue-dark) !important; }
+
+/* Boxes around sections: very light blue edge */
+.stApp [data-testid="stVerticalBlockBorderWrapper"] { border-color: var(--mizu-line) !important; }
+
+/* ===== No gradients: solid colours only ===== */
+.stApp .kpi-card, .stApp .rail-card, .stApp .step-card, .stApp .stage-tile {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+.stApp .brand-name {
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: border-box !important; background-clip: border-box !important;
+    -webkit-text-fill-color: var(--mizu-blue-dark) !important;
+    color: var(--mizu-blue-dark) !important;
+}
+
+/* ===== Tweaks: smaller section headings, stage tiles, rail spacing, nav position ===== */
+
+/* 1. Section headings (STATUS, KEY NUMBERS, ANALYSIS...) one size smaller */
+:root { --fs-section: 1.15rem; }
+@media (max-width: 768px) { :root { --fs-section: 1.05rem; } }
+
+/* 2. Stage tiles: no blue border, soft tinted rows instead */
+.stApp .stage-tile {
+    border: 1px solid #e3eaf4 !important;
+    border-top: 1px solid #e3eaf4 !important;
+    background: #f4f8fd !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.stApp .stage-tile:hover {
+    border-color: #c9d8ee !important;
+    background: #eaf2fc !important;
+    box-shadow: none !important;
+}
+
+/* 3. Legend & Key and Plant at a glance: two separate cards with space between */
+.stApp .rail-card { margin-bottom: 1rem !important; }
+
+/* 4. Navigation links a little lower */
+.stApp .st-key-mizu-topbar a:not(:has(.brand-name)),
+.stApp .st-key-mizu-topbar button {
+    position: relative !important;
+    top: .5rem !important;
+}
+
+/* ===== Section headings one size smaller (STATUS, KEY NUMBERS, ANALYSIS, DETAILS & EXPLORATION) ===== */
+:root { --fs-section: 1rem; }
+.stApp .zone-eyebrow { font-size: 1rem !important; }
+@media (max-width: 768px) {
+    :root { --fs-section: .95rem; }
+    .stApp .zone-eyebrow { font-size: .95rem !important; }
+}

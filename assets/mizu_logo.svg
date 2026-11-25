@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="MIZU water monitoring">
+  <defs>
+    <linearGradient id="mizu-water" x1="7" y1="5" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#42A5F5"/>
+      <stop offset="1" stop-color="#1565C0"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#mizu-water)"/>
+  <path d="M24 9.5c-5.7 7.1-10 11.9-10 17.5A10 10 0 0 0 34 27c0-5.6-4.3-10.4-10-17.5Z" fill="#fff" fill-opacity=".97"/>
+  <path d="M18.5 28.4c2.2-2.25 4.45-2.25 6.7 0 1.45 1.45 2.9 1.9 4.3 1.35" fill="none" stroke="#1976D2" stroke-width="2.25" stroke-linecap="round"/>
+</svg>
+
