@@ -187,21 +187,8 @@ streamlit run app.py
 
 ---
 
-## 8. Master's Interview Defense Guide
 
-When defending this project in an AI/ML interview, emphasize:
-1. **Domain Understanding Before Algorithms:** You understood wastewater treatment unit operations (influent, clarifiers, aeration, performance ratios) before writing model code.
-2. **Missingness Mechanics:** Why $BOD_5$ is frequently missing due to the physical 5-day incubation protocol, justifying robust imputation over data deletion.
-3. **Rigorous Unsupervised Validation:** Why accuracy is statistically deceptive for anomaly detection, how unsupervised concordance metrics work, and how external domain literature acts as a secondary validation anchor.
-4. **Computational Complexity & Trade-offs:**
-   - *Isolation Forest:* $\mathcal{O}(n \cdot t \cdot \psi \log \psi)$, sub-sampling $\psi = 256$, highly scalable to streaming telemetry.
-   - *Local Outlier Factor:* $\mathcal{O}(n^2 \cdot d)$ without indexing trees, local density sensitivity vs. computational cost.
-   - *PCA:* $\mathcal{O}(\min(n^3, d^3))$ SVD decomposition, linear assumption limitations vs. non-linear operational dynamics.
-5. **Ethics & Limitations:** Clear delineation between research-grade operational decision-support and statutory drinking-water compliance testing.
-
----
-
-## 9. Author & License
+## 8. Author & License
 
 - **Project Lead:** Nida Hermein (BCA Cloud Architecture & Cybersecurity)
 - **License:** MIT License — free for educational and research usage.
